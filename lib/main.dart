@@ -1,3 +1,4 @@
+import 'package:calendula_app/app/providers/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -66,5 +67,6 @@ Future<void> initServices() async {
     authStore: store,
   );
 
+  Get.put(AppState());
   Get.put(AuthProvider(pocketBase: pocketBase));
 }
