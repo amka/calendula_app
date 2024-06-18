@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pocketbase/pocketbase.dart';
 
+import 'app/app_config.dart';
+import 'app/providers/auth_provider.dart';
 import 'app/router.dart';
 import 'app/theme/default.dart' as light;
 import 'app/theme/default_dark.dart' as dark;
 
-void main() {
-  runApp(const ProviderScope(child: CalendulaApp()));
+Future<void> main() async {
+  // Init services with GetX
+  await initServices();
+
+  runApp(const CalendulaApp());
 }
 
 class CalendulaApp extends StatelessWidget {
@@ -34,4 +40,11 @@ class CalendulaApp extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> initServices() async {
+  // await Firebase.initializeApp();
+  final pocketBase = PocketBase(AppConfig.baseApiUrl);
+
+  Get.put(AuthProvider(pocketBase: pocketBase));
 }
