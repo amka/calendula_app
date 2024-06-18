@@ -27,7 +27,7 @@ class Entry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 48,
+      // height: 48,
       child: TextField(
         controller: controller,
         readOnly: disabled,

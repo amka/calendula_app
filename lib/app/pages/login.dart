@@ -91,7 +91,8 @@ class LoginPage extends StatelessWidget {
                 ConstrainedWidget(
                   child: Row(
                     children: [
-                      Text('Don\'t have an account? '.tr),
+                      Text('Don\'t have an account? '.tr,
+                      style: Theme.of(context).textTheme.bodyMedium,),
                       TextButton(
                         onPressed: () => context.goNamed('register'),
                         child: Text('Register'.tr),

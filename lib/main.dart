@@ -32,14 +32,20 @@ class CalendulaApp extends StatelessWidget {
         brightness: Brightness.light,
         scaffoldBackgroundColor: light.colorScheme.surface,
         canvasColor: light.colorScheme.onSurface,
-        textTheme: GoogleFonts.interTextTheme(),
+        textTheme: GoogleFonts.interTextTheme().apply(
+          bodyColor: light.colorScheme.onSurface,
+          displayColor: light.colorScheme.onSurface,
+        ),
       ),
       darkTheme: ThemeData(
         colorScheme: dark.colorScheme,
         brightness: Brightness.dark,
         scaffoldBackgroundColor: dark.colorScheme.surface,
         canvasColor: dark.colorScheme.onSurface,
-        textTheme: GoogleFonts.interTextTheme(),
+        textTheme: GoogleFonts.interTextTheme().apply(
+          bodyColor: dark.colorScheme.onSurface,
+          displayColor: dark.colorScheme.onSurface,
+        ),
       ),
       builder: (context, child) => Container(child: child),
     );

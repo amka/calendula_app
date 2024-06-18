@@ -1,3 +1,4 @@
+import 'package:calendula_app/app/app_config.dart';
 import 'package:flutter/material.dart';
 
 
@@ -53,7 +54,9 @@ class Button extends StatelessWidget {
     return MaterialButton(
       onPressed: loading ? null : onTap,
       height: 48,
-      shape: const StadiumBorder(),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppConfig.borderRadius)
+      ),
       elevation: 0,
       focusElevation: 0,
       color: color,
