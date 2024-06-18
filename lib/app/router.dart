@@ -1,15 +1,17 @@
+import 'dart:developer';
+
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-
-import 'pages/login_page.dart';
-import 'pages/splash.dart';
 import 'package:go_router/go_router.dart';
+
+import 'pages/login.dart';
+import 'pages/home.dart';
 import 'providers/auth_provider.dart';
 
 // This is crucial for making sure that the same navigator is used
 // when rebuilding the GoRouter and not throwing away the whole widget tree.
 final navigatorKey = GlobalKey<NavigatorState>();
-Uri? initUrl = Uri.base; // needed to set intiial url state
+Uri? initUrl = Uri.parse('/'); // needed to set intiial url state
 
 final AuthProvider authProvider = Get.find();
 
@@ -23,6 +25,8 @@ final router = GoRouter(
     if (queryString.isNotEmpty && path != null) {
       path += "?$queryString";
     }
+
+    log('message: $path');
 
     // If user is not authenticated, direct to login screen
     if (!authProvider.isAuthenticated && initUrl?.path != '/login') {
@@ -41,13 +45,14 @@ final router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const SplashPage(),
+      name: 'home',
+      builder: (context, state) => const HomePage(),
     ),
     GoRoute(
       name: 'login',
       path: '/login',
       builder: (context, state) {
-        return const LoginPage();
+        return LoginPage();
       },
     ),
   ],

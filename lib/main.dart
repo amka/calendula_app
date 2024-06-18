@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pocketbase/pocketbase.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/app_config.dart';
 import 'app/providers/auth_provider.dart';
@@ -10,6 +12,7 @@ import 'app/theme/default.dart' as light;
 import 'app/theme/default_dark.dart' as dark;
 
 Future<void> main() async {
+  usePathUrlStrategy();
   // Init services with GetX
   await initServices();
 
@@ -36,15 +39,26 @@ class CalendulaApp extends StatelessWidget {
         brightness: Brightness.dark,
         scaffoldBackgroundColor: dark.colorScheme.surface,
         canvasColor: dark.colorScheme.onSurface,
-        // textTheme: GoogleFonts.interTextTheme(),
+        textTheme: GoogleFonts.interTextTheme(),
       ),
+      builder: (context, child) => Container(child: child),
     );
   }
 }
 
 Future<void> initServices() async {
   // await Firebase.initializeApp();
-  final pocketBase = PocketBase(AppConfig.baseApiUrl);
+  final prefs = await SharedPreferences.getInstance();
+
+  final store = AsyncAuthStore(
+    save: (String data) async => prefs.setString('pb_auth', data),
+    initial: prefs.getString('pb_auth'),
+  );
+
+  final pocketBase = PocketBase(
+    AppConfig.baseApiUrl,
+    authStore: store,
+  );
 
   Get.put(AuthProvider(pocketBase: pocketBase));
 }
