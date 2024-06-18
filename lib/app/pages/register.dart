@@ -10,8 +10,8 @@ import '../widgets/button.dart';
 import '../widgets/constrained_widget.dart';
 import '../widgets/entry.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class RegisterPage extends StatelessWidget {
+  RegisterPage({super.key});
 
   final AuthProvider authProvider = Get.find();
 
@@ -34,7 +34,7 @@ class LoginPage extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: GradientText(
-                      'Hello'.tr,
+                      'Welcome'.tr,
                       style:
                           Theme.of(context).textTheme.displayMedium?.copyWith(
                                 color: context.colorScheme.primary,
@@ -51,7 +51,7 @@ class LoginPage extends StatelessWidget {
                 ConstrainedWidget(
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('& welcome back!'.tr),
+                    child: Text('Sign up to use Calendula'.tr),
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -81,7 +81,7 @@ class LoginPage extends StatelessWidget {
                   child: Obx(
                     () => Button(
                       onTap: () => onLogin(context),
-                      text: 'Login'.tr,
+                      text: 'Register'.tr,
                       variant: ButtonVariant.primary,
                       loading: loading.value,
                     ),
@@ -91,13 +91,11 @@ class LoginPage extends StatelessWidget {
                 ConstrainedWidget(
                   child: Row(
                     children: [
-                      Text(
-                        'Don\'t have an account? '.tr,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
+                      Text('Already have an account? '.tr,
+                      style: Theme.of(context).textTheme.bodyMedium,),
                       TextButton(
-                        onPressed: () => context.go('/register'),
-                        child: Text('Register'.tr),
+                        onPressed: () => context.goNamed('login'),
+                        child: Text('Login'.tr),
                       ),
                     ],
                   ),
@@ -128,20 +126,18 @@ class LoginPage extends StatelessWidget {
       await authProvider.login(email, password);
     } catch (e) {
       final err = e as ClientException;
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              err.response['message'] ?? 'Unknown error'.tr,
-            ),
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            err.response['message'] ?? 'Unknown error'.tr,
           ),
-        );
-      }
+        ),
+      );
     } finally {
       // await Future.delayed(const Duration(milliseconds: 800));
       loading.value = false;
       if (context.mounted) {
-        context.replaceNamed('home');
+        context.replace('/home');
       }
     }
   }
